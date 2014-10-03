@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+
+	<script type="text/javascript" src="jquery-2.1.1.min.js"></script>
+
+	<style type="text/css">
+	html, body {
+		background-color: #292929;
+		color: #c5c4c4;
+		font-size: 40px;
+		margin: 0;
+		padding: 0;
+		font-family: Calibri;
+		overflow: hidden;
+	}
+
+	.text {
+		position: absolute;
+		top: 50%;
+		margin-top: -25px;
+		right: 35%;
+
+		width: 1065%;
+
+		text-align: right;
+	}
+
+	span {
+		display: inline;
+		position: relative;
+		margin-top: 0;
+		transition: margin-top 1s;
+	}
+
+	input {
+		position: absolute;
+		background: transparent;
+		color: transparent;
+		width: 99%;
+		height: 99%;
+		border: 0;
+		outline: none;
+	}
+	</style>
+
+	<title>Очисти разум</title>
+</head>
+<body>
+	<div class="text"></div>
+
+	<input type="text" />
+
+	<script type="text/javascript">
+		var textBlock = $('.text');
+
+		var timer = 10; // Секунд
+
+		$('input:first').keypress(function(e) {
+			if (e.charCode != 0) {
+				e.preventDefault();
+				var letter = $('<span>' + String.fromCharCode(e.charCode) + '</span>');
+
+				letter.appendTo(textBlock);
+
+				setTimeout($.proxy(function(letter) {
+					letter.fadeOut({
+						complete: function() {
+							letter.remove();
+						}
+					})
+				}, window, letter), timer * 1000)
+			} 
+		})
+
+		$('input:first').keydown(function(e) {
+			if (e.keyCode == 13) {
+				$('span').each(function(key, element) {
+					$(element)
+					.css({
+						'position': 'absolute',
+						'left': element.offsetLeft
+					})
+					.css({
+						'margin-top': '-=50'
+					})
+				})
+			} else if (e.keyCode == 8) {
+				$('span:last').remove();
+			}
+		})
+
+		$(window).on('pageshow', function() {
+			$('input:first').focus()
+		})
+	</script>
+</body>
+</html>
