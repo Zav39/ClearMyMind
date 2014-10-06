@@ -55,7 +55,17 @@
 	<script type="text/javascript">
 		var textBlock = $('.text');
 
-		var timer = 10; // Секунд
+		var _timer = localStorage.timer || 10; // Секунд
+
+		// Сохранение в localStorage
+		Object.defineProperty(window, 'timer', {
+			get: function () {
+				return _timer;
+			},
+			set: function (value) {
+				_timer = localStorage.timer = value;
+			}
+		});
 
 		$('input:first').keypress(function(e) {
 			if (e.charCode != 0) {
@@ -70,7 +80,7 @@
 							letter.remove();
 						}
 					})
-				}, window, letter), timer * 1000)
+				}, window, letter), _timer * 1000)
 			} 
 		})
 
